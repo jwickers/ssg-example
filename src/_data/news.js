@@ -1,12 +1,25 @@
-/* eslint-env es6 */
+/* eslint-env es2017 */
 const axios = require("axios");
+const countries = require("./countries.json");
 const de = require('dotenv').config();
 
-module.exports = async function() {
+async function getNews(country) {
     try {
-        const response = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWSAPI_KEY}&category=technology&pageSize=10`);
-        return response.data;
+        const response = await axios.get(`https://newsapi.org/v2/top-headlines?country=${country}&apiKey=${process.env.NEWSAPI_KEY}&category=technology&pageSize=10`);
+        return {
+            "country": country,
+            "articles": response.data.articles
+        }
     } catch (err) {
         console.log(err);
     }
+}
+
+module.exports = async function() {
+    
+    var newsPromises = countries.map(getNews);
+    return Promise.all(newsPromises).then( newsObjects => {
+        console.log('newsObjects:', newsObjects);
+        return [].concat.apply([], newsObjects);
+    });
 }
