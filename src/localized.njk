@@ -11,6 +11,15 @@ permalink: /{{ news.country }}/index.html
 <div class="container">
     <h1>Some news for you</h1>
 
+    <div id="weather" class="hidden">
+        <h2>Your Weather</h2>
+        <p id="city"></p>
+        <p id="temp"></p>
+        <p id="main"></p>
+        <p id="desc"></p>
+    </div>
+
+    <h2>Your News</h2>
     <ul class="articles">
     {% for article in news.articles %}
         <li>
@@ -21,3 +30,4 @@ permalink: /{{ news.country }}/index.html
     </ul>
 </div>
 <script src="/js/vibe.js"></script>
+<script src="/js/weather.js"></script>
